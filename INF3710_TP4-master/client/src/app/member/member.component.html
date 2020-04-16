@@ -1,0 +1,36 @@
+
+<div id="hotel" style="text-align: left">
+  <h1> Membres</h1>
+  <div id="error" class="alert alert-danger" role="alert" *ngIf="duplicateError">
+    Insertion sur une cle primaire qui existe deja
+  </div>
+    <ul style="list-style: none;">
+      membreID : <li><input class="form-control col-md-4" #memberID></li>
+      Nom : <li><input class="form-control col-md-4" #name></li>
+      Prenom : <li><input  class="form-control col-md-4" #firstName></li>
+      Adresse courriel : <li><input class="form-control col-md-4" #email></li>
+      Adresse Postale : <li><input  class="form-control col-md-4" #address></li>
+      Mot de passe : <li><input  class="form-control col-md-4" #passeWord></li>
+      type de membre : <li><select class="form-control col-md-4">
+        <option value="volvo">Abonnement Mensuel</option>
+        <option value="saab">Payement Vue</option>
+      </select></li>
+      <ul style="list-style: none;" *ngIf="memberType == 'AbonnementMensuel'">
+        prixAbonnement : <li><input type="number" class="form-control col-md-4" #SubscribePrice></li>
+        dateDebut : <li><input type="date" class="form-control col-md-4" #startDate></li>
+        echeance : <li><input   type="date" class="form-control col-md-4" #deadline></li>
+      </ul>
+  
+      <ul style="list-style: none;" *ngIf="memberType == 'PayementAVue'">
+        film_payperview : <li><input type="number" class="form-control col-md-4" #filmPrice></li>
+      </ul>
+    <li><button type="button" class="btn btn-primary" (click)="insertMember(memberID.value,
+                                                                            name.value,
+                                                                            firstName.value,
+                                                                            email.value,
+                                                                            address.value, 
+                                                                            passeWord.value)"> Ajouter Membre</button></li>
+    </ul>
+   
+  </div>
+  

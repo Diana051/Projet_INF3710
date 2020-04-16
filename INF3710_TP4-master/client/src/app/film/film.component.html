@@ -1,0 +1,22 @@
+<div id="film" style="text-align: left">
+  <h1> Films</h1>
+    <ul style="list-style: none;">
+      filmID : <li><input type="text" class="form-control col-md-4" #filmID ></li>
+      titre : <li><input type="text" class="form-control col-md-4" #title></li>
+      genre : <li><input type="text" class="form-control col-md-4" #gender ></li>
+      duree Totale : <li><input type="number" class="form-control col-md-4" #duration ></li>
+      date de Production : <li><input type="date" class="form-control col-md-4" #productionDate ></li>
+      <button type="button" class="btn btn-primary" (click)="insertFilm(filmID.value, 
+                                                                        title.value, 
+                                                                        gender.value,
+                                                                        duration,
+                                                                        productionDate.value)" > Ajouter Film</button>
+    </ul>
+  </div>
+
+  <!-- (keyup)="validateHotelNo(hotelNo.value)"></li>
+      <div id="error" class="invalid" *ngIf="invalidHotelPK"> Cet hotel n'existe pas</div>
+    [disabled]= "hotelNo.value === '' || invalidHotelPK"-->
+
+
+

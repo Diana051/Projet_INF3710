@@ -1,0 +1,40 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+
+
+<nav class="navbar navbar-dark bg-dark mb-5">
+    <a class="navbar-brand title" href="/">INF3710-TP4</a>
+    <div class="navbar-expand mr-auto">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" routerLink="/membre">Membre</a>
+        <a class="nav-item nav-link active" routerLink="/film">Film</a>
+      </div>
+    </div>
+  </nav>
+
+<div style="text-align:center">
+<div *ngIf="route == ''">
+  <button type="button" class="btn btn-danger" (click) ="createDB()">Create Database</button>
+</div>
+
+<router-outlet></router-outlet>
+
+
+<div id="ht" style="text-align:center" *ngIf="route != '/membre'">
+  <button type="button" class="btn btn-primary" (click)="getFilms()">accéder à la liste de film</button>
+  <table id ="ht" align="center" border="1" width="350">
+    <thead>
+      <th> FILM</th>
+      <th> DELETE FILM </th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let film of films">
+        <td> {{film.name}}</td>
+        <td> {{film.gender}} </td>
+        <td> </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
