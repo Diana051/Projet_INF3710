@@ -49,15 +49,16 @@ CREATE TABLE IF NOT EXISTS NETFLIXBD.Film(
 	genre VARCHAR(50) NOT NULL,
 	dureeTotale NUMERIC(4,0) NOT NULL,
 	dateProduction DATE NOT NULL,
+	prix  decimal(5,2) NOT NULL,
 	PRIMARY KEY (filmID)
 );
 
 CREATE TABLE IF NOT EXISTS NETFLIXBD.Participant(
 	participantID SERIAL UNIQUE,
 	nom VARCHAR(50) NOT NULL,
-	prenom VARCHAR(50) NOT NULL,
-	age NUMERIC(4,0) NOT NULL,
+	dateNaissance DATE NOT NULL,
 	sexe NETFLIXBD.Sexe NOT NULL,
+	nationalite VARCHAR(50) NOT NULL,
 	PRIMARY KEY (participantID)
 );
 
@@ -74,7 +75,7 @@ CREATE TABLE IF NOT EXISTS NETFLIXBD.Role(
 	salaire integer NOT NULL,
 	filmID integer NOT NULL,
 	participantID integer NOT NULL,
-	PRIMARY KEY(participantID, filmID),
+	PRIMARY KEY(participantID, filmID, nomRole),
 	FOREIGN KEY (participantID) REFERENCES NETFLIXBD.Participant(participantID),
 	FOREIGN KEY (filmID) REFERENCES NETFLIXBD.Film(filmID)
 );
@@ -82,9 +83,9 @@ CREATE TABLE IF NOT EXISTS NETFLIXBD.Role(
 CREATE TABLE IF NOT EXISTS NETFLIXBD.CopieDVD(
 	numeroDVD NUMERIC(4,0) NOT NULL,
 	filmID integer NOT NULL,
-	membreID integer,
-	coutEnvoi  decimal(5,2),
-	dateEnvoi Date,
+	membreID integer NOT NULL,
+	coutEnvoi  decimal(5,2) NOT NULL,
+	dateEnvoi Date NOT NULL,
 	PRIMARY KEY (numeroDVD, membreID, filmID),
 	FOREIGN KEY (membreID) REFERENCES NETFLIXBD.Membre(membreID),
 	FOREIGN KEY (filmID) REFERENCES NETFLIXBD.Film(filmID)
@@ -93,8 +94,9 @@ CREATE TABLE IF NOT EXISTS NETFLIXBD.CopieDVD(
 CREATE TABLE IF NOT EXISTS NETFLIXBD.FilmGagant(
 	ceremonieID integer NOT NULL,
 	filmID integer NOT NULL,
-	categorie VARCHAR(50) NOT NULL,
-	PRIMARY KEY(ceremonieID, filmID),
+	categorieID integer NOT NULL,
+	categorie VARCHAR(100) NOT NULL,
+	PRIMARY KEY(ceremonieID, filmID, categorieID),
 	FOREIGN KEY (ceremonieID) REFERENCES NETFLIXBD.CeremonieOscars(ceremonieID),
 	FOREIGN KEY (filmID) REFERENCES NETFLIXBD.Film(filmID)
 );
@@ -102,8 +104,9 @@ CREATE TABLE IF NOT EXISTS NETFLIXBD.FilmGagant(
 CREATE TABLE IF NOT EXISTS NETFLIXBD.FilmNomine(
 	ceremonieID integer NOT NULL,
 	filmID integer NOT NULL,
-	categorie VARCHAR(50) NOT NULL,
-	PRIMARY KEY(ceremonieID, filmID),
+	categorieID integer NOT NULL,
+	categorie VARCHAR(100) NOT NULL,
+	PRIMARY KEY(ceremonieID, filmID, categorieID),
 	FOREIGN KEY (ceremonieID) REFERENCES NETFLIXBD.CeremonieOscars(ceremonieID),
 	FOREIGN KEY (filmID) REFERENCES NETFLIXBD.Film(filmID)
 );

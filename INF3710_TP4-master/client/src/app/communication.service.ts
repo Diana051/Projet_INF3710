@@ -4,6 +4,7 @@ import { concat, of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Film } from "../../../common/tables/Film";
 import { Member } from "../../../common/tables/Member";
+// import { Login } from "../../../common/tables/Login";
 
 @Injectable()
 export class CommunicationService {
@@ -37,13 +38,13 @@ export class CommunicationService {
     }
 
     public insertFilm(newFilm: Film): Observable<number> {
-        return this.http.post<number>(this.BASE_URL + "/film/insert", newFilm).pipe(
+        return this.http.post<number>(this.BASE_URL + "/administrateur/film/insert", newFilm).pipe(
             catchError(this.handleError<number>("inserFilm")),
         );
     }
 
     public insertMember(newMember: Member): Observable<number> {
-        return this.http.post<number>(this.BASE_URL + "/member/insert", newMember).pipe(
+        return this.http.post<number>(this.BASE_URL + "/administrateur/member/insert", newMember).pipe(
             catchError(this.handleError<number>("inserMember")),
         );
     }
@@ -53,6 +54,10 @@ export class CommunicationService {
     public setUpDatabase(): Observable<any> {
         return concat(this.http.post<any>(this.BASE_URL + "/createSchema", []),
                       this.http.post<any>(this.BASE_URL + "/populateDb", []));
+    }
+    public login(login: any): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/login/newLogin", login).pipe(
+            catchError(this.handleError<number>("newLogin")),);
     }
 
     private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {

@@ -8,12 +8,18 @@ import { AppComponent } from "./app.component";
 import { CommunicationService } from "./communication.service";
 import { FilmComponent } from "./film/film.component";
 import { MemberComponent } from "./member/member.component";
+import { LoginComponent } from './login/login.component';
+import { AdministrateurComponent } from './administrateur/administrateur.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FilmComponent,
     MemberComponent,
+    LoginComponent,
+    AdministrateurComponent,
+    HomeComponent,
   ],
   imports: [
     CommonModule,

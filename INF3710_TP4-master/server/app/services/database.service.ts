@@ -12,8 +12,8 @@ export class DatabaseService {
     // A MODIFIER POUR VOTRE BD
     public connectionConfig: pg.ConnectionConfig = {
         user: "postgres",
-        database: "NetflixBD",
-        password: "diana051",
+        database: "NETFLIXPOLY",
+        password: "Ai448910",
         port: 5432,
         host: "127.0.0.1",
         keepAlive : true
@@ -45,6 +45,9 @@ export class DatabaseService {
     // FILM
     public async getFilms(): Promise<pg.QueryResult> {
         return this.pool.query('SELECT * FROM NetflixBD.Film;');
+    }
+    public async getCredential(email: string, password: string ): Promise<pg.QueryResult> {
+        return this.pool.query('SELECT adresseCourriel, motDePasse FROM NetflixBD.Membre WHERE adresseCourriel =  \'' + email + '\' and motDePasse = \''+ password +'\';');
     }
 
     public async createFilm(newFilm: Film): Promise<pg.QueryResult> {

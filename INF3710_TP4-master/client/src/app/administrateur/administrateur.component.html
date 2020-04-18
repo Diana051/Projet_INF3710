@@ -1,16 +1,9 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
-
-
-<nav class="navbar navbar-dark bg-dark mb-5">
+<!-- <nav class="navbar navbar-dark bg-dark mb-5">
     <a class="navbar-brand title" href="/">INF3710-TP4</a>
     <div class="navbar-expand mr-auto">
       <div class="navbar-nav">
-     
-        <a *ngIf="route == '/administrateur'" class="nav-item nav-link active" routerLink="/administrateur/membre">Membre</a>
-        <a *ngIf="route == '/administrateur'" class="nav-item nav-link active" routerLink="/administrateur/film">Film</a>
-        <a *ngIf="route == ''" class="nav-item nav-link active" routerLink="/administrateur">Administrateur</a>
-        <a *ngIf="route == ''" class="nav-item nav-link active" routerLink="/login">Login</a>
+        <a class="nav-item nav-link active" routerLink="./membre">Membre</a>
+        <a class="nav-item nav-link active" routerLink="./film">Film</a>
       </div>
     </div>
   </nav>
@@ -18,12 +11,11 @@
 <div style="text-align:center">
 <div *ngIf="route == ''">
   <button type="button" class="btn btn-danger" (click) ="createDB()">Create Database</button>
-</div>
+</div> -->
 
 <router-outlet></router-outlet>
 
-
-<div id="ht" style="text-align:center" *ngIf="route == '/administrateur/film'">
+<!-- <div id="ht" style="text-align:center" *ngIf="route != '/membre'">
   <button type="button" class="btn btn-primary" (click)="getFilms()">accéder à la liste de film</button>
   <table id ="ht" align="center" border="1" width="350">
     <thead>
@@ -38,6 +30,7 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->
+
 
 

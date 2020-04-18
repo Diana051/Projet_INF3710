@@ -5,6 +5,8 @@ import * as pg from "pg";
 import {Film} from "../../../common/tables/Film";
 import {Member} from '../../../common/tables/Member';
 
+import {Login} from '../../../common/tables/Login';
+
 import { DatabaseService } from "../services/database.service";
 import Types from "../types";
 
@@ -44,7 +46,29 @@ export class DatabaseController {
                         duration: film.duration,
                         productionDate: film.productionDate
                     }));
+                    console.log(films);
                     res.json(films);
+                }).catch((e: Error) => {
+                    console.error(e.stack);
+                });
+            });
+            router.post("/login/newLogin",
+                   (req: Request, res: Response, next: NextFunction) => {
+                    this.databaseService.getCredential(req.body.email, req.body.passWord).then((result: pg.QueryResult) => {
+                    
+
+                        
+                    const logins: Login[] = result.rows.map((login: Login) => (
+                        {
+                        email: login.email,
+                        passWord: login.passWord,
+                    }));
+                    if (logins.length == 1){
+                    res.json(true);
+
+                    }else {
+                        res.json(false);
+                    }
                 }).catch((e: Error) => {
                     console.error(e.stack);
                 });
@@ -79,7 +103,6 @@ export class DatabaseController {
                         address: req.body.address, 
                         passeWord: req.body.passeWord
                         };
-                    console.log(newMember);
 
                     this.databaseService.createMember(newMember)
                     .then((result: pg.QueryResult) => {
