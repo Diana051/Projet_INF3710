@@ -58,5 +58,8 @@
     "tslint": "~6.0.0",
     "tslint-microsoft-contrib": "6.2.0",
     "typescript": "^3.7.5"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }

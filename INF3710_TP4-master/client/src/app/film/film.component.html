@@ -14,7 +14,7 @@
   </div>
 
   <div id="ht" style="text-align:center">
-    <button type="button" class="btn btn-primary" (click)="getFilms()">accéder à la liste de film</button>
+    <button type="button" class="btn btn-primary" (click)="openListFilm()">accéder à la liste de film</button>
    <!--<table id ="ht" align="center" border="1" width="350">
       <thead>
         <th> FILM</th>
@@ -29,6 +29,16 @@
       </tbody>
     </table>-->
   </div>
+
+  
+<div class="galery-card" *ngFor="let film of listFilm">
+  <tr>
+    <th>{{film.name}}</th>
+    <th>{{film.gender}}</th>
+    <th><button type="button" class="btn btn-primary" (click)="deleteFilm(film)">supprimer</button></th>
+    <th><button type="button" class="btn btn-primary" (click)="editFilm()">modifier</button></th>
+  </tr>
+</div>
 
 
 

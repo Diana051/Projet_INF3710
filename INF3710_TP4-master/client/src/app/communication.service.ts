@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { concat, of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { Film } from "../../../common/tables/Film";
+import { Film, FilmBD } from "../../../common/tables/Film";
 import { Member, MemberPerView, MemberSubscribe } from "../../../common/tables/Member";
 // import { Login } from "../../../common/tables/Login";
 
@@ -22,11 +22,10 @@ export class CommunicationService {
        this._listners.next(filterBy);
     }
 
+    public getFilms(): Observable<FilmBD[]> {
 
-    public getFilms(): Observable<any[]> {
-
-        return this.http.get<Film[]>(this.BASE_URL + "/film").pipe(
-            catchError(this.handleError<Film[]>("getFilms")),
+        return this.http.get<FilmBD[]>(this.BASE_URL + "/film").pipe(
+            catchError(this.handleError<FilmBD[]>("getFilms")),
         );
     }
 
@@ -63,7 +62,11 @@ export class CommunicationService {
         return newMember;
     }
 
-    public deleteFilm(): void {}
+    public deleteFilm(id: number): Observable<FilmBD> {
+        return this.http.delete<FilmBD>(this.BASE_URL + "/administrateur/film/" + id).pipe(
+            catchError(this.handleError<FilmBD>("deletefilm")),
+        );
+    }
 
     public setUpDatabase(): Observable<any> {
         return concat(this.http.post<any>(this.BASE_URL + "/createSchema", []),

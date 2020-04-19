@@ -2,8 +2,8 @@ import { NextFunction, Request, Response, Router } from "express";
 import { inject, injectable } from "inversify";
 import * as pg from "pg";
 
-import {Film} from "../../../common/tables/Film";
-import {Member} from '../../../common/tables/Member';
+import {Film, FilmBD} from "../../../common/tables/Film";
+import {Member, MemberSubscribe, MemberPerView} from '../../../common/tables/Member';
 
 import {Login} from '../../../common/tables/Login';
 
@@ -38,7 +38,7 @@ export class DatabaseController {
         router.get("/film",
                    (req: Request, res: Response, next: NextFunction) => {
                     this.databaseService.getFilms().then((result: pg.QueryResult) => {
-                    const films: Film[] = result.rows.map((film: Film) => (
+                    const films: FilmBD[] = result.rows.map((film: FilmBD) => (
                         {
                         filmID: film.filmID,
                         title: film.title,
@@ -74,10 +74,9 @@ export class DatabaseController {
                 });
             });
 
-        router.post("/film/insert",
+        router.post("/administrateur/film/insert",
                     (req: Request, res: Response, next: NextFunction) => {
                         const newFilm: Film = {
-                            filmID: req.body.filmID,
                             title: req.body.title,
                             gender: req.body.gender,
                             duration: req.body.duration,
@@ -91,18 +90,40 @@ export class DatabaseController {
                     });
         });
 
-        router.delete("/film/delete", /*TODO*/);
+        router.delete("/administrateur/film/delete", 
+            (req: Request, res: Response, next: NextFunction) => {
+                this.databaseService.deleteFilm(req.params.id).then((result: pg.QueryResult) => {
+                res.json(result.rowCount);
+            }).catch((e: Error) => {
+                console.error(e.stack);
+                res.json(-1);
+            });
 
-        router.post("/member/insert",
+        router.post("/administrateur/memberSubscribe/insert",
                     (req: Request, res: Response, next: NextFunction) => {
-                    const newMember: Member = {
-                        memberID: req.body.memberID,
-                        name: req.body.name,
-                        firstName: req.body.firstName,
-                        email: req.body.email,
-                        address: req.body.address, 
-                        passeWord: req.body.passeWord
+
+                   const newMember: Member = {
+                        name: req.body.member.name,
+                        firstName: req.body.member.firstName,
+                        email: req.body.member.email,
+                        address: req.body.member.address, 
+                        passeWord: req.body.member.passeWord
+                        }; 
+                    const member: MemberSubscribe = {
+                        member: newMember,
+                        SubscribePrice: req.body.SubscribePrice,
+                        startDate: req.body.startDate ,
+                        deadline: req.body.deadline
                         };
+
+                    this.databaseService.createMemberSubscribe(member)
+                    .then((result: pg.QueryResult) => {
+                        res.json(result.rowCount);
+                    })
+                    .catch((e: Error) => {
+                        console.error(e.stack);
+                        res.json(-1);
+                    });
 
                     this.databaseService.createMember(newMember)
                     .then((result: pg.QueryResult) => {
@@ -113,6 +134,40 @@ export class DatabaseController {
                         res.json(-1);
                     });
         });
+
+        router.post("/administrateur/memberPerView/insert",
+                    (req: Request, res: Response, next: NextFunction) => {
+                        const newMember: Member = {
+                            name: req.body.member.name,
+                            firstName: req.body.member.firstName,
+                            email: req.body.member.email,
+                            address: req.body.member.address, 
+                            passeWord: req.body.member.passeWord
+                            }; 
+                        const member: MemberPerView = {
+                            member: newMember,
+                            pricePerView: req.body.pricePerView
+                            };
+    
+                        this.databaseService.createMemberPerView(member)
+                        .then((result: pg.QueryResult) => {
+                            res.json(result.rowCount);
+                        })
+                        .catch((e: Error) => {
+                            console.error(e.stack);
+                            res.json(-1);
+                        });
+    
+                        this.databaseService.createMember(newMember)
+                        .then((result: pg.QueryResult) => {
+                            res.json(result.rowCount);
+                        })
+                        .catch((e: Error) => {
+                            console.error(e.stack);
+                            res.json(-1);
+                        });
+        });
+
 
         return router;
     }

@@ -2,7 +2,7 @@ import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
 import { Film } from "../../../common/tables/Film";
-import { Member } from "../../../common/tables/Member";
+import { Member, MemberSubscribe, MemberPerView } from "../../../common/tables/Member";
 import {schema} from "../createSchema";
 import {data} from "../populateDB";
 
@@ -52,13 +52,12 @@ export class DatabaseService {
 
     public async createFilm(newFilm: Film): Promise<pg.QueryResult> {
         const values: string[] = [
-            newFilm.filmID.toString(),
             newFilm.title,
             newFilm.gender,
             newFilm.duration,
             newFilm.productionDate.toDateString(),
         ];
-        const queryText: string = `INSERT INTO NetflixBD.Film VALUES($1, $2, $3, $4, $5);`;
+        const queryText: string = `INSERT INTO NetflixBD.Film VALUES($1, $2, $3, $4);`;
 
         return this.pool.query(queryText, values);
     }
@@ -66,20 +65,47 @@ export class DatabaseService {
     // MEMBER
     public async createMember(newMember: Member): Promise<pg.QueryResult> {
         const values: string[] = [
-            newMember.memberID.toString(),
             newMember.name,
             newMember.firstName,
             newMember.email,
             newMember.address,
             newMember.passeWord,
         ];
-        const queryText: string = `INSERT INTO NetflixBD.Membre VALUES($1,$2,$3,$4,$5,$6);`;
+        const queryText: string = `INSERT INTO NetflixBD.Membre VALUES($1,$2,$3,$4,$5);`;
 
         return this.pool.query(queryText, values);
     }
+
+    public async createMemberSubscribe(newMember: MemberSubscribe): Promise<pg.QueryResult> {
+       const id = this.pool.query('SELECT membreID FROM NetflixBD.Member WHERE ;');
+        const values: string[] = [
+            id.toString(),
+            newMember.SubscribePrice.toString(),
+            newMember.startDate.toDateString(),
+            newMember.deadline.toDateString()
+        ];
+        const queryText: string = `INSERT INTO NetflixBD.MembreAbonnementMensuel VALUES($1,$2,$3,$4);`;
+
+        return this.pool.query(queryText, values);
+    }
+
+    public async createMemberPerView(newMember: MemberPerView): Promise<pg.QueryResult> {
+        const id = this.pool.query('SELECT membreID FROM NetflixBD.Member WHERE ;');
+         const values: string[] = [
+             id.toString(),
+             newMember.pricePerView.toString(),
+         ];
+         const queryText: string = `INSERT INTO NETFLIXBD.MembrePayementAVue VALUES($1,$2);`;
+ 
+         return this.pool.query(queryText, values);
+     }
 	
-	public deleteFilm(/*Todo*/): void /*TODO*/  {
-		/*TODO*/
+	public deleteFilm(id: number): Promise<pg.QueryResult>  {
+        /*TODO*/
+        const values: string[] = [
+        ];
+        const queryText: string = ``;
+        return this.pool.query(queryText, values);
 	}
 
     /* ROOM

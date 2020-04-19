@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { Film } from "../../../../common/tables/Film";
+import { Film, FilmBD } from "../../../../common/tables/Film";
 import { CommunicationService } from "../communication.service";
-import { listFilmComponent } from "./list_film/list_film.component";
 
 @Component({
   selector: "app-film",
@@ -10,22 +8,13 @@ import { listFilmComponent } from "./list_film/list_film.component";
   styleUrls: ["./film.component.css"]
 })
 export class FilmComponent implements OnInit {
-  public constructor(private communicationService: CommunicationService, private matDialog: MatDialog) { }
+  public listFilm: FilmBD[] ;
 
-  public hotelPKs: string[] = [];
-  public duplicateError: boolean = false;
-  public invalidHotelPK: boolean = false;
-  public ngOnInit(): void {
-      /*this.communicationService.getHotelPKs().subscribe((hotelPKs: string[]) => {
-          this.hotelPKs = hotelPKs;
-          console.log(this.duplicateError);
-          console.log(this.hotelPKs);
-      });*/
+  public constructor(private communicationService: CommunicationService) {
+    this. listFilm  = new Array<FilmBD>();
   }
 
-  public validateHotelNo(hotelNo: string): void {
-    this.invalidHotelPK = this.hotelPKs.indexOf(hotelNo) === -1;
-    console.log("===" + hotelNo + this.invalidHotelPK);
+  public ngOnInit(): void {
   }
 
   public insertFilm(title: string, gender: string, duration: string, productionDate: Date): void {
@@ -40,11 +29,19 @@ export class FilmComponent implements OnInit {
     });
   }
 
-  public openDrawingsGalery(): void {
-    this.matDialog.open(listFilmComponent, {
-        width: '80vw',
-        height: '93vh',
-        disableClose: true,
-    });
+  public openListFilm(): void {
+   this.communicationService.getFilms().subscribe((films) => {
+    for (const film of films) {
+      this.listFilm.push(film);
+    }
+   });
+  }
+
+  public deleteFilm(film: FilmBD): void {
+    this.communicationService.deleteFilm(film.filmID);
+  }
+
+  public editFilm(film: FilmBD): void {
+    // this.communicationService.deleteFilm(film.filmID);
   }
 }
