@@ -11,7 +11,7 @@ import { MemberComponent } from "./member/member.component";
 import { LoginComponent } from './login/login.component';
 import { AdministrateurComponent } from './administrateur/administrateur.component';
 import { HomeComponent } from './home/home.component';
-
+import { WatchFilmComponent } from './watch-film/watch-film.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,13 +20,15 @@ import { HomeComponent } from './home/home.component';
     LoginComponent,
     AdministrateurComponent,
     HomeComponent,
+    WatchFilmComponent,
   ],
   imports: [
-    CommonModule,
+ 
+  CommonModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [CommunicationService],
   bootstrap: [AppComponent],

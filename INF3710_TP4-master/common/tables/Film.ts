@@ -1,7 +1,15 @@
 export interface Film {
-    filmID: number, 
+    filmid: number, 
     title: string, 
-    gender: string,
+    genre: string,
     duration: string,
-    productionDate: Date
+    productiondate: Date,
+    price: number,
+};
+export const pushFilms = (rows: any[]): Film[]=>{
+    let films:Film[] = new Array;
+    rows.forEach(row => {
+        films.push({filmid: row.filmid, title: row.titre, genre: row.genre, duration: row.duration, productiondate: row.dateproduction, price: row.prix})
+    });
+    return films;
 }

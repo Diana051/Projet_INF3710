@@ -13,15 +13,18 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.0.0",
+    "@angular/cdk": "^9.2.1",
     "@angular/common": "~9.0.0",
     "@angular/compiler": "~9.0.0",
     "@angular/core": "~9.0.0",
     "@angular/forms": "~9.0.0",
+    "@angular/material": "^9.2.1",
     "@angular/platform-browser": "~9.0.0",
     "@angular/platform-browser-dynamic": "~9.0.0",
     "@angular/router": "~9.0.0",
     "core-js": "3.6.4",
     "font-awesome": "^4.7.0",
+    "mat-video": "^2.8.0",
     "rxjs": "~6.5.4",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
@@ -56,5 +59,8 @@
     "tslint": "~6.0.0",
     "tslint-microsoft-contrib": "6.2.0",
     "typescript": "^3.7.5"
+  },
+  "optionalDependencies": {
+    "fsevents": "*"
   }
 }

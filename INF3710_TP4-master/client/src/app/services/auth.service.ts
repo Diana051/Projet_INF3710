@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Member, MemberType } from './../../../../common/tables/Member';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  public authentificationState: boolean = false;
+  authentificationState: boolean = false;
+  user :{member: Member, memberType:MemberType|undefined};
   constructor() { }
 
     isAuthenticated():boolean{

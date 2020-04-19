@@ -44,34 +44,57 @@ export class DatabaseService {
 
     // FILM
     public async getFilms(): Promise<pg.QueryResult> {
+
         return this.pool.query('SELECT * FROM NetflixBD.Film;');
     }
     public async getCredential(email: string, password: string ): Promise<pg.QueryResult> {
-        return this.pool.query('SELECT adresseCourriel, motDePasse FROM NetflixBD.Membre WHERE adresseCourriel =  \'' + email + '\' and motDePasse = \''+ password +'\';');
+        return this.pool.query('SELECT * FROM NetflixBD.Membre WHERE adresseCourriel =  \'' + email + '\' and motDePasse = \''+ password +'\';');
+    }
+    public async getMembreAbonnementMensuel(memberid:number ): Promise<pg.QueryResult> {
+        return this.pool.query('SELECT membreid FROM NetflixBD.MembreAbonnementMensuel WHERE membreid =  \'' + memberid +'\';');
+    }
+    public async getWatchTime(userid: string ,filmid: string ): Promise<pg.QueryResult> {
+        return this.pool.query('SELECT dureeDeVisionnement FROM NetflixBD.VisionnementEnLigne WHERE filmID =  ' + filmid + ' AND membreID = ' +userid + ';');
+    }
+    public async updateWatchTime(userid: string, filmid: string, watchTime:string ): Promise<pg.QueryResult> {
+        let query = this.pool.query('SELECT dureeDeVisionnement FROM NetflixBD.VisionnementEnLigne WHERE filmID =  ' + filmid  + ' AND membreID = ' +userid + ';');
+        if ((await query).rows.length ==1){
+            return this.pool.query('UPDATE NetflixBD.VisionnementEnLigne SET dureeDeVisionnement = ' + watchTime + ' WHERE filmID =  ' + filmid + ' AND membreID = ' +userid + ';');
+        }else{
+            
+            let date = new Date();
+            let dd = String(date.getDate()).padStart(2, '0');
+            let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+            let yyyy = date.getFullYear();
+            let today = 'DATE\''+ yyyy +'-'+mm+'-'+dd+'\'';
+            return this.pool.query('INSERT INTO NetflixBD.VisionnementEnLigne VALUES(' + filmid+', '+ userid+', '+today+', '+watchTime+');');
+        }
     }
 
     public async createFilm(newFilm: Film): Promise<pg.QueryResult> {
         const values: string[] = [
-            newFilm.filmID.toString(),
+            newFilm.filmid.toString(),
             newFilm.title,
-            newFilm.gender,
+            newFilm.genre,
             newFilm.duration,
-            newFilm.productionDate.toDateString(),
+            newFilm.productiondate.toDateString(),
+            newFilm.price.toString(),
         ];
         const queryText: string = `INSERT INTO NetflixBD.Film VALUES($1, $2, $3, $4, $5);`;
 
         return this.pool.query(queryText, values);
     }
 
+
     // MEMBER
     public async createMember(newMember: Member): Promise<pg.QueryResult> {
         const values: string[] = [
-            newMember.memberID.toString(),
-            newMember.name,
-            newMember.firstName,
+            newMember.memberid.toString(),
+            newMember.lastname,
+            newMember.firstname,
             newMember.email,
             newMember.address,
-            newMember.passeWord,
+            newMember.password,
         ];
         const queryText: string = `INSERT INTO NetflixBD.Membre VALUES($1,$2,$3,$4,$5,$6);`;
 

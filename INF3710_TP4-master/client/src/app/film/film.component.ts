@@ -26,13 +26,14 @@ export class FilmComponent implements OnInit {
     console.log("===" + hotelNo + this.invalidHotelPK);
   }
 
-  public insertFilm(filmID: number, title: string, gender: string, duration: string, productionDate: Date): void {
+  public insertFilm(filmID: number, title: string, genre: string, duration: string, productionDate: Date, price: number): void {
     const newFilm: Film = {
-      "filmID": filmID,
+      "filmid": filmID,
       "title": title,
-      "gender": gender,
+      "genre": genre,
       "duration": duration,
-      "productionDate": productionDate
+      "productiondate": productionDate,
+      "price": price,
     };
     this.communicationService.insertFilm(newFilm).subscribe((res: number) => {
         console.log(res);

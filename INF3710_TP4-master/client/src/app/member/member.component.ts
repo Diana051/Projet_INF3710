@@ -14,14 +14,14 @@ export class MemberComponent {
 
   public duplicateError: boolean = false;
 
-  public insertMember(memberID: number, name: string, firstName: string, email: string, address: string, passeWord: string): void {
+  public insertMember(memberID: number, name: string, firstName: string, email: string, address: string, password: string): void {
     const newMember: Member = {
-      "memberID": memberID,
-      "name": name,
-      "firstName": firstName,
+      "memberid": memberID,
+      "lastname": name,
+      "firstname": firstName,
       "email": email,
-      "address": address,
-      "passeWord": passeWord
+      "password": password,
+      "address": address
     };
     this.communicationService.insertMember(newMember).subscribe((res: number) => {
         if (res > 0) {

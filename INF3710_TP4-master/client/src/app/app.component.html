@@ -11,6 +11,8 @@
         <a *ngIf="route == '/administrateur'" class="nav-item nav-link active" routerLink="/administrateur/film">Film</a>
         <a *ngIf="route == ''" class="nav-item nav-link active" routerLink="/administrateur">Administrateur</a>
         <a *ngIf="route == ''" class="nav-item nav-link active" routerLink="/login">Login</a>
+
+        <a *ngIf="route.includes('/home/watchFilm')" class="nav-item nav-link active" routerLink="/home">home</a>
       </div>
     </div>
   </nav>

@@ -59,6 +59,18 @@ export class CommunicationService {
         return this.http.post<any>(this.BASE_URL + "/login/newLogin", login).pipe(
             catchError(this.handleError<number>("newLogin")),);
     }
+    public getMemberType(memberID: number): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/login/newLogin/getMemberType", memberID).pipe(
+            catchError(this.handleError<number>("newLogin")),);
+    }
+    public getWatchTime(watch: {userid: string, filmid: string}): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/watchFilm/getWatchTime", watch).pipe(
+            catchError(this.handleError<number>("watchFilm")),);
+    }
+    public upadeWatchTime(film: {userid: string, filmid: string, watchTime: string}): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/watchFilm/updateWatchTime", film).pipe(
+            catchError(this.handleError<number>("watchFilm")),);
+    }
 
     private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
 
@@ -66,4 +78,5 @@ export class CommunicationService {
             return of(result as T);
         };
     }
+
 }

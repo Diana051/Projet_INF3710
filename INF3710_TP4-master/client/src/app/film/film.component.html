@@ -6,11 +6,13 @@
       genre : <li><input type="text" class="form-control col-md-4" #gender ></li>
       duree Totale : <li><input type="number" class="form-control col-md-4" #duration ></li>
       date de Production : <li><input type="date" class="form-control col-md-4" #productionDate ></li>
+      prix : <li><input type="number" class="form-control col-md-4" #prix ></li>
       <button type="button" class="btn btn-primary" (click)="insertFilm(filmID.value, 
                                                                         title.value, 
                                                                         gender.value,
                                                                         duration,
-                                                                        productionDate.value)" > Ajouter Film</button>
+                                                                        productionDate.value,
+                                                                        prix.value)" > Ajouter Film</button>
     </ul>
   </div>
 

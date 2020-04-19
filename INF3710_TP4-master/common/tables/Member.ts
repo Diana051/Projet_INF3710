@@ -1,20 +1,31 @@
 export interface Member {
-    memberID: number,
-    name: string,
-    firstName: string,
+    memberid: number,
+    lastname: string,
+    firstname: string,
     email: string,
-    address: string, 
-    passeWord: string
+    password: string, 
+    address: string
 }
 
 export interface MemberPerView {
     member: Member,
-    pricePerView: number
+    film_payperview: number
 }
 
 export interface MemberSubscribe {
     member: Member,
-    SubscribePrice: number,
-	startDate:Date,
+    membershipprice: number,
+	startdate:Date,
 	deadline: Date,
+}
+
+export const pushMembers = (rows: any[]): Member[]=>{
+    let members:Member[] = new Array;
+    rows.forEach(row => {
+        members.push({memberid: row.membreid, lastname: row.nom, firstname: row.prenom, email: row.adressecourriel, password: row.motdepasse, address: row.adressepostale})
+    });
+    return members;
+}
+export enum MemberType{
+    PerView, Subscribtion
 }
