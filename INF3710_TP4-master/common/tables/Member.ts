@@ -1,4 +1,12 @@
 export interface Member {
+    name: string,
+    firstName: string,
+    email: string,
+    address: string, 
+    passeWord: string
+}
+
+export interface MemberBD {
     memberID: number,
     name: string,
     firstName: string,

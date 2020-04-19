@@ -1,22 +1,34 @@
 <div id="film" style="text-align: left">
   <h1> Films</h1>
     <ul style="list-style: none;">
-      filmID : <li><input type="text" class="form-control col-md-4" #filmID ></li>
+      <!--filmID : <li><input type="text" class="form-control col-md-4" #filmID ></li>-->
       titre : <li><input type="text" class="form-control col-md-4" #title></li>
       genre : <li><input type="text" class="form-control col-md-4" #gender ></li>
       duree Totale : <li><input type="number" class="form-control col-md-4" #duration ></li>
       date de Production : <li><input type="date" class="form-control col-md-4" #productionDate ></li>
-      <button type="button" class="btn btn-primary" (click)="insertFilm(filmID.value, 
-                                                                        title.value, 
+      <button type="button" class="btn btn-primary" (click)="insertFilm(title.value, 
                                                                         gender.value,
                                                                         duration,
                                                                         productionDate.value)" > Ajouter Film</button>
     </ul>
   </div>
 
-  <!-- (keyup)="validateHotelNo(hotelNo.value)"></li>
-      <div id="error" class="invalid" *ngIf="invalidHotelPK"> Cet hotel n'existe pas</div>
-    [disabled]= "hotelNo.value === '' || invalidHotelPK"-->
+  <div id="ht" style="text-align:center">
+    <button type="button" class="btn btn-primary" (click)="getFilms()">accéder à la liste de film</button>
+   <!--<table id ="ht" align="center" border="1" width="350">
+      <thead>
+        <th> FILM</th>
+        <th> DELETE FILM </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let film of films">
+          <td> {{film.name}}</td>
+          <td> {{film.gender}} </td>
+          <td> </td>
+        </tr>
+      </tbody>
+    </table>-->
+  </div>
 
 
 

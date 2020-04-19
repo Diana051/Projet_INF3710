@@ -3,14 +3,16 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { AdministrateurComponent } from "./administrateur/administrateur.component";
+import { AppMaterialModule } from "./app-material.module";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { CommunicationService } from "./communication.service";
 import { FilmComponent } from "./film/film.component";
+import { listFilmComponent } from "./film/list_film/list_film.component";
+import { HomeComponent } from "./home/home.component";
+import { LoginComponent } from "./login/login.component";
 import { MemberComponent } from "./member/member.component";
-import { LoginComponent } from './login/login.component';
-import { AdministrateurComponent } from './administrateur/administrateur.component';
-import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { HomeComponent } from './home/home.component';
     MemberComponent,
     LoginComponent,
     AdministrateurComponent,
+    listFilmComponent,
     HomeComponent,
   ],
   imports: [
@@ -26,6 +29,7 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    AppMaterialModule,
     AppRoutingModule
   ],
   providers: [CommunicationService],

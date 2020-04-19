@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { concat, of, Observable, Subject } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Film } from "../../../common/tables/Film";
-import { Member } from "../../../common/tables/Member";
+import { Member, MemberPerView, MemberSubscribe } from "../../../common/tables/Member";
 // import { Login } from "../../../common/tables/Login";
 
 @Injectable()
@@ -43,10 +43,24 @@ export class CommunicationService {
         );
     }
 
-    public insertMember(newMember: Member): Observable<number> {
-        return this.http.post<number>(this.BASE_URL + "/administrateur/member/insert", newMember).pipe(
-            catchError(this.handleError<number>("inserMember")),
+    public insertMemberAbonnement(newMember: MemberSubscribe): Observable<number> {
+        return this.http.post<number>(this.BASE_URL + "/administrateur/memberSubscribe/insert", newMember).pipe(
+            catchError(this.handleError<number>("insertMemberSubscribe")),
         );
+    }
+
+    public insertMemberPerView(newMember: MemberPerView): Observable<number> {
+        return this.http.post<number>(this.BASE_URL + "/administrateur/memberPerView/insert", newMember).pipe(
+            catchError(this.handleError<number>("inserMemberPerView")),
+        );
+    }
+
+    public cryptPasseword(newMember: Member): Member {
+        /*const bycrpt = require("bycrptjs");
+        const salt = bycrpt.genSalt(10);
+        const  hash = bycrpt.hash(newMember.passeWord, salt);
+        console.log(hash);*/
+        return newMember;
     }
 
     public deleteFilm(): void {}

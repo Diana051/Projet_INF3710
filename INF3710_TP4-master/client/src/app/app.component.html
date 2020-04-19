@@ -23,21 +23,3 @@
 <router-outlet></router-outlet>
 
 
-<div id="ht" style="text-align:center" *ngIf="route == '/administrateur/film'">
-  <button type="button" class="btn btn-primary" (click)="getFilms()">accéder à la liste de film</button>
-  <table id ="ht" align="center" border="1" width="350">
-    <thead>
-      <th> FILM</th>
-      <th> DELETE FILM </th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let film of films">
-        <td> {{film.name}}</td>
-        <td> {{film.gender}} </td>
-        <td> </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-

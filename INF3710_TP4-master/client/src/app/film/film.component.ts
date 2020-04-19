@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Film } from "../../../../common/tables/Film";
 import { CommunicationService } from "../communication.service";
+import { listFilmComponent } from "./list_film/list_film.component";
 
 @Component({
   selector: "app-film",
@@ -8,7 +10,7 @@ import { CommunicationService } from "../communication.service";
   styleUrls: ["./film.component.css"]
 })
 export class FilmComponent implements OnInit {
-  public constructor(private communicationService: CommunicationService) { }
+  public constructor(private communicationService: CommunicationService, private matDialog: MatDialog) { }
 
   public hotelPKs: string[] = [];
   public duplicateError: boolean = false;
@@ -26,9 +28,8 @@ export class FilmComponent implements OnInit {
     console.log("===" + hotelNo + this.invalidHotelPK);
   }
 
-  public insertFilm(filmID: number, title: string, gender: string, duration: string, productionDate: Date): void {
+  public insertFilm(title: string, gender: string, duration: string, productionDate: Date): void {
     const newFilm: Film = {
-      "filmID": filmID,
       "title": title,
       "gender": gender,
       "duration": duration,
@@ -37,5 +38,13 @@ export class FilmComponent implements OnInit {
     this.communicationService.insertFilm(newFilm).subscribe((res: number) => {
         console.log(res);
     });
-}
+  }
+
+  public openDrawingsGalery(): void {
+    this.matDialog.open(listFilmComponent, {
+        width: '80vw',
+        height: '93vh',
+        disableClose: true,
+    });
+  }
 }
