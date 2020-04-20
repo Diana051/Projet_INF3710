@@ -2,9 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { concat, of, Observable, Subject} from "rxjs";
 import { catchError } from "rxjs/operators";
-import { Film, FilmBD, CopiesDVD } from "../../../common/tables/Film";
-import { Member, MemberPerView, MemberSubscribe, MemberBD } from "../../../common/tables/Member";
-// import { Login } from "../../../common/tables/Login";
+import { CopiesDVD, Film, FilmBD } from "../../../common/tables/Film";
+import { Member, MemberBD, MemberPerView, MemberSubscribe } from "../../../common/tables/Member";
 
 @Injectable()
 export class CommunicationService {
@@ -48,15 +47,11 @@ export class CommunicationService {
     }
 
     public cryptPasseword(newMember: Member): Member {
-        /*const bycrpt = require("bycrptjs");
-        const salt = bycrpt.genSalt(10);
-        const  hash = bycrpt.hash(newMember.passeWord, salt);
-        console.log(hash);*/
         return newMember;
     }
 
     public deleteFilm(film: FilmBD): Observable<FilmBD> {
-        return this.http.delete<FilmBD>(this.BASE_URL + "/administrateur/film/delete" + film.filmId).pipe(
+        return this.http.post<FilmBD>(this.BASE_URL + "/administrateur/film/delete", film).pipe(
             catchError(this.handleError<FilmBD>("deletefilm")),
         );
     }

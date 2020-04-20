@@ -1,5 +1,5 @@
 import { Component} from "@angular/core";
-import { Member, MemberSubscribe, MemberPerView} from "../../../../common/tables/Member";
+import { Member, MemberPerView, MemberSubscribe} from "../../../../common/tables/Member";
 import { CommunicationService } from "./../communication.service";
 
 @Component({
@@ -34,7 +34,7 @@ export class MemberComponent {
     } else if (this.memberType === "PayementAVue") {
 
      this.insertMemberPerView(member, filmPrice === undefined ? 0 : filmPrice);
-
+     console.log('woow');
     }
   }
 

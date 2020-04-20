@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import * as pg from "pg";
 import "reflect-metadata";
-import { Film, FilmBD, pushFilms, CopiesDVD } from "../../../common/tables/Film";
+import { pushFilms, CopiesDVD, Film, FilmBD } from "../../../common/tables/Film";
 import { pushMembers, Member, MemberBD, MemberPerView, MemberSubscribe } from "../../../common/tables/Member";
 import {schema} from "../createSchema";
 import {data} from "../populateDB";
@@ -37,10 +37,6 @@ export class DatabaseService {
 
         return this.pool.query(data);
     }
-
-   /* public async getAllFromTable(tableName: string): Promise<pg.QueryResult> {
-        return this.pool.query(`SELECT * FROM HOTELDB.${tableName};`);
-    }*/
 
     // FILM
     public async getFilms(): Promise<pg.QueryResult> {
@@ -86,13 +82,21 @@ export class DatabaseService {
 
     public async createFilm(newFilm: Film): Promise<pg.QueryResult> {
         let films: FilmBD[] = [];
-
+        let id: number = 0;
         await this.getFilms().then((result: pg.QueryResult) => {
             films = pushFilms(result.rows);
         });
 
+        id = films.length + 1;
+        for (const film of films) {
+            if (film.filmId > id) {
+                id = film.filmId + 1;
+                break;
+            }
+        }
+
         const values: string[] = [
-            films.length.toString(),
+            id.toString(),
             newFilm.title,
             newFilm.gender,
             newFilm.duration.toString(),
@@ -119,18 +123,39 @@ export class DatabaseService {
 
     // MEMBER
     public async createMember(newMember: Member): Promise<pg.QueryResult> {
-        return this.pool.query('INSERT INTO NETFLIXPOLY.Membre(nom, prenom, adresseCourriel, motDePasse, adressePostale)' +
-         'VALUES(' + newMember.lastName + ',' +
-        newMember.firstName + ',' +  newMember.email + ',' + newMember.address + ',' + newMember.password + ');');
+
+        let members: MemberBD[] = [];
+        let id: number = 0;
+
+        await this.getMember().then((result: pg.QueryResult) => {
+            members = pushMembers(result.rows);
+        });
+        id = members.length + 1;
+        for (const member of members) {
+            if (member.memberId > id) {
+                id = member.memberId + 1;
+                break;
+            }
+        }
+        const values: string[] = [
+            (id).toString(),
+            newMember.lastName,
+            newMember.firstName,
+            newMember.email,
+            newMember.address,
+            newMember.password
+        ];
+        const queryText: string = `INSERT INTO NETFLIXPOLY.Membre VALUES($1,$2,$3,$4,$5,$6);`;
+
+        return this.pool.query(queryText, values);
     }
 
     public async getMember(): Promise<pg.QueryResult> {
-        return this.pool.query('SELECT * FROM NETFLIXPOLY.Member;');
+        return this.pool.query('SELECT * FROM NETFLIXPOLY.Membre;');
     }
 
     public async createMemberSubscribe(newMember: MemberSubscribe): Promise<pg.QueryResult> {
-        await this.createMember(newMember.member).then((value) => {
-            console.log(value);
+        await this.createMember(newMember.member).then((value) => { console.log(value);
         }).catch((e: Error) => { console.log(e); });
 
         let members: MemberBD[] = new Array;
@@ -146,7 +171,7 @@ export class DatabaseService {
                 member.address === newMember.member.address) {
                     id = member.memberId;
                     break;
-                }
+            }
         }
         const values: string[] = [
             id.toString(),
@@ -178,7 +203,7 @@ export class DatabaseService {
                 member.address === newMember.member.address) {
                     id = member.memberId;
                     break;
-                }
+            }
         }
         const values: string[] = [
              id.toString(),
@@ -189,12 +214,11 @@ export class DatabaseService {
         return this.pool.query(queryText, values);
     }
 
-    public async deleteFilm(id: string): Promise<pg.QueryResult> {
+    public async deleteFilm(id: number): Promise<pg.QueryResult> {
         const values: string[] = [
             id.toString(),
         ];
         const queryText: string = `DELETE FROM NETFLIXPOLY.Film WHERE filmID = $1;`;
         return this.pool.query(queryText, values);
-        // return this.pool.query( 'DELETE FROM NETFLIXPOLY.Film WHERE filmID =' + id + ';');
     }
 }

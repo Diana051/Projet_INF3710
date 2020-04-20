@@ -133,9 +133,9 @@ export class DatabaseController {
                     });
         });
 
-        router.delete("/administrateur/film/delete/:id",
-                      (req: Request, res: Response, next: NextFunction) => {
-                          this.databaseService.deleteFilm(req.params.id).then((result: pg.QueryResult) => {
+        router.post("/administrateur/film/delete",
+                        (req: Request, res: Response, next: NextFunction) => {
+                          this.databaseService.deleteFilm(req.body.filmId).then((result: pg.QueryResult) => {
                             res.json(result.rowCount);
                         }).catch((e: Error) => {
                     console.error(e.stack);
