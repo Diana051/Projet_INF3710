@@ -21,11 +21,11 @@ export class MemberComponent {
   public insertMember(name: string, firstName: string, email: string, address: string, passeWord: string,
                       filmPrice?: number, subscribePrice?: number, startDate?: Date, deadline?: Date): void {
     const member: Member = {
-      "name": name,
+      "lastName": name,
       "firstName": firstName,
       "email": email,
-      "address": address,
-      "passeWord": passeWord
+      "password": passeWord,
+      "address": address
     };
     if (this.memberType === "AbonnementMensuel") {
 
@@ -38,10 +38,10 @@ export class MemberComponent {
     }
   }
 
-  public insertMemberAbonnement(member: Member, subscribePrice: number, startDate: Date, deadline: Date): void {
+  public insertMemberAbonnement(member: Member, membershipprice: number, startDate: Date, deadline: Date): void {
     const newMember: MemberSubscribe = {
       "member": member,
-      "SubscribePrice": subscribePrice,
+      "membershipprice": membershipprice,
       "startDate": startDate,
       "deadline": deadline
     };
@@ -56,7 +56,7 @@ export class MemberComponent {
   public insertMemberPerView(member: Member, filmPrice: number): void {
     const newMember: MemberPerView = {
       "member": member,
-      "pricePerView": filmPrice
+      "film_payperview": filmPrice
     };
     this.communicationService.insertMemberPerView(newMember).subscribe((res: number) => {
       if (res > 0) {

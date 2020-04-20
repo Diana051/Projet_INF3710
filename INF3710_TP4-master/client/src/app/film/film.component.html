@@ -1,43 +1,55 @@
 <div id="film" style="text-align: left">
   <h1> Films</h1>
     <ul style="list-style: none;">
-      <!--filmID : <li><input type="text" class="form-control col-md-4" #filmID ></li>-->
       titre : <li><input type="text" class="form-control col-md-4" #title></li>
       genre : <li><input type="text" class="form-control col-md-4" #gender ></li>
       duree Totale : <li><input type="number" class="form-control col-md-4" #duration ></li>
       date de Production : <li><input type="date" class="form-control col-md-4" #productionDate ></li>
+      prix : <li><input type="number" class="form-control col-md-4" #price ></li>
       <button type="button" class="btn btn-primary" (click)="insertFilm(title.value, 
                                                                         gender.value,
-                                                                        duration,
-                                                                        productionDate.value)" > Ajouter Film</button>
+                                                                        duration.value,
+                                                                        productionDate.value,
+                                                                        price.value)" > Ajouter Film</button>
     </ul>
   </div>
 
   <div id="ht" style="text-align:center">
     <button type="button" class="btn btn-primary" (click)="openListFilm()">accéder à la liste de film</button>
-   <!--<table id ="ht" align="center" border="1" width="350">
-      <thead>
-        <th> FILM</th>
-        <th> DELETE FILM </th>
-      </thead>
-      <tbody>
-        <tr *ngFor="let film of films">
-          <td> {{film.name}}</td>
-          <td> {{film.gender}} </td>
-          <td> </td>
-        </tr>
-      </tbody>
-    </table>-->
   </div>
 
-  
-<div class="galery-card" *ngFor="let film of listFilm">
-  <tr>
-    <th>{{film.name}}</th>
-    <th>{{film.gender}}</th>
-    <th><button type="button" class="btn btn-primary" (click)="deleteFilm(film)">supprimer</button></th>
-    <th><button type="button" class="btn btn-primary" (click)="editFilm()">modifier</button></th>
-  </tr>
+  <div class = "container" style="text-align:left" >
+    <div *ngFor="let film of listFilm; let i = index"  class="buttonContainer">
+
+    
+        <button  type = "button" class ="button" class="btn btn-primary" (click)= "showInfo(i)" >
+            {{film.title}}
+        </button>
+        <button  type = "button" class ="button" class="btn btn-success" (click)= "deleteFilm(film)">
+            supprimer
+        </button>
+        <button  type = "button" class ="button" class="btn btn-info" (click)="editFilm(film)">Modifier</button>
+        <div *ngIf="infoButtonValue == i+1">
+            <p>
+                FilmID: {{film.filmId}}
+            </p>
+            <p>
+                Title: {{film.title}}
+            </p>
+            <p>
+                Genre: {{film.gender}}
+            </p>
+            <p>
+                Duration: {{film.duration}}
+            </p>
+            <p>
+                Productiondate {{film.productionDate}}
+            </p>
+            <p>
+                Price {{film.price}}
+            </p>
+        </div>
+    </div>
 </div>
 
 

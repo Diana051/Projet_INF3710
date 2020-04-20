@@ -1,7 +1,36 @@
 
-<div *ngFor="let film of films">
+<div class = "container" >
+    <div *ngFor="let film of films; let i = index"  class="buttonContainer">
 
-    <p1>titre:
-        {{film.filmID}}
-    </p1>
+    
+        <button  type = "button" class ="button" class="btn btn-primary" (click)= "showInfo(i)" >
+            {{film.title}}
+        </button>
+        <button  type = "button" class ="button" class="btn btn-success" (click)= "watchFilm(i)">
+            watch
+        </button>
+        <button  type = "button" class ="button" class="btn btn-info"  (click)= "buyDVD(film)" >
+            buy DVD
+        </button>
+        <div *ngIf="infoButtonValue == i+1">
+            <p>
+                FilmID: {{film.filmId}}
+            </p>
+            <p>
+                Title: {{film.title}}
+            </p>
+            <p>
+                Genre: {{film.gender}}
+            </p>
+            <p>
+                Duration: {{film.duration}}
+            </p>
+            <p>
+                Productiondate {{film.productionDate}}
+            </p>
+            <p>
+                Price {{film.price}}
+            </p>
+        </div>
+    </div>
 </div>

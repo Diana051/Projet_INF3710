@@ -1,7 +1,6 @@
 <div id="membre" style="text-align: left">
   <h1> Membres</h1>
     <ul style="list-style: none;">
-    <!---membreID : <li><input class="form-control col-md-4" #memberID></li>-->
       Nom : <li><input class="form-control col-md-4" #name></li>
       Prenom : <li><input  class="form-control col-md-4" #firstName></li>
       Adresse courriel : <li><input class="form-control col-md-4" #email></li>
@@ -17,21 +16,28 @@
         prixAbonnement : <li><input type="number" class="form-control col-md-4" #subscribePrice></li>
         dateDebut : <li><input type="date" class="form-control col-md-4" #startDate></li>
         echeance : <li><input   type="date" class="form-control col-md-4" #deadline></li>
+        <li><button type="button" class="btn btn-primary" (click)="insertMember(name.value,
+          firstName.value,
+          email.value,
+          address.value, 
+          passeWord.value,
+          subscribePrice.value,
+          startDate.value,
+          deadline.value)"> Ajouter Membre</button></li>
       </ul>
   
       <ul style="list-style: none;" *ngIf="memberType == 'PayementAVue'">
         film_payperview : <li><input type="number" class="form-control col-md-4" #filmPrice></li>
+        <li><button type="button" class="btn btn-primary" (click)="insertMember(name.value,
+                                                                                firstName.value,
+                                                                                email.value,
+                                                                                address.value, 
+                                                                                passeWord.value,
+                                                                                0,
+                                                                                0,
+                                                                                null,
+                                                                                filmPrice.value)"> Ajouter Membre</button></li>
       </ul>
-
-    <li><button type="button" class="btn btn-primary" (click)="insertMember(name.value,
-                                                                            firstName.value,
-                                                                            email.value,
-                                                                            address.value, 
-                                                                            passeWord.value,
-                                                                            filmPrice.value,
-                                                                            subscribePrice.value,
-                                                                            startDate.value,
-                                                                            deadline.value)"> Ajouter Membre</button></li>
     </ul>
    
   </div>

@@ -8,6 +8,7 @@ import { LoginComponent } from "./login/login.component";
 import { AdministrateurComponent } from "./administrateur/administrateur.component";
 import { HomeComponent } from "./home/home.component";
 import { AuthGuardService } from "./guards/auth-guard.service";
+import { WatchFilmComponent } from "./watch-film/watch-film.component";
 
 const routes: Routes = [
   { path: "app", component: AppComponent },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: "administrateur/membre", component: MemberComponent },
   {path: "login", component: LoginComponent},
   {path: "home", component: HomeComponent, canActivate: [AuthGuardService],},
-  {path: "administrateur", component: AdministrateurComponent}
+  {path: "administrateur", component: AdministrateurComponent},
+  {path: "home/watchFilm/:filmID", component: WatchFilmComponent, canActivate: [AuthGuardService],}
 ];
 
 @NgModule({

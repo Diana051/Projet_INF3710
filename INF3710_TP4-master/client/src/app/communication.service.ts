@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { concat, of, Observable, Subject } from "rxjs";
+import { concat, of, Observable, Subject} from "rxjs";
 import { catchError } from "rxjs/operators";
-import { Film, FilmBD } from "../../../common/tables/Film";
-import { Member, MemberPerView, MemberSubscribe } from "../../../common/tables/Member";
+import { Film, FilmBD, CopiesDVD } from "../../../common/tables/Film";
+import { Member, MemberPerView, MemberSubscribe, MemberBD } from "../../../common/tables/Member";
 // import { Login } from "../../../common/tables/Login";
 
 @Injectable()
@@ -26,13 +26,6 @@ export class CommunicationService {
 
         return this.http.get<FilmBD[]>(this.BASE_URL + "/film").pipe(
             catchError(this.handleError<FilmBD[]>("getFilms")),
-        );
-    }
-
-    public getHotelPKs(): Observable<string[]> {
-
-        return this.http.get<string[]>(this.BASE_URL + "/hotel/hotelNo").pipe(
-            catchError(this.handleError<string[]>("getHotelPKs")),
         );
     }
 
@@ -62,8 +55,8 @@ export class CommunicationService {
         return newMember;
     }
 
-    public deleteFilm(id: number): Observable<FilmBD> {
-        return this.http.delete<FilmBD>(this.BASE_URL + "/administrateur/film/" + id).pipe(
+    public deleteFilm(film: FilmBD): Observable<FilmBD> {
+        return this.http.delete<FilmBD>(this.BASE_URL + "/administrateur/film/delete" + film.filmId).pipe(
             catchError(this.handleError<FilmBD>("deletefilm")),
         );
     }
@@ -72,9 +65,42 @@ export class CommunicationService {
         return concat(this.http.post<any>(this.BASE_URL + "/createSchema", []),
                       this.http.post<any>(this.BASE_URL + "/populateDb", []));
     }
+
     public login(login: any): Observable<any> {
         return this.http.post<any>(this.BASE_URL + "/login/newLogin", login).pipe(
             catchError(this.handleError<number>("newLogin")),);
+    }
+
+    public getMemberType(memberID: number): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/login/newLogin/getMemberType", memberID).pipe(
+            catchError(this.handleError<number>("newLogin")),);
+    }
+
+    public getWatchTime(watch: {userid: string, filmid: string}): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/watchFilm/getWatchTime", watch).pipe(
+            catchError(this.handleError<number>("watchFilm")),);
+    }
+
+    public upadeWatchTime(film: {userid: string, filmid: string, watchTime: string}): Observable<any> {
+        return this.http.post<any>(this.BASE_URL + "/watchFilm/updateWatchTime", film).pipe(
+            catchError(this.handleError<number>("watchFilm")),);
+    }
+
+    public buyDVD(film: FilmBD, member: MemberBD): Observable<CopiesDVD> {
+        const date: Date = new Date();
+        const DVD: CopiesDVD = {
+            numeroDVD: '1',
+            filmID: film.filmId,
+            membreID: member.memberId,
+            coutEnvoi: this.triggerEnvoiDVD(member),
+            dateEnvoi: date.getDate(),
+        }
+        return this.http.post<CopiesDVD>(this.BASE_URL + "/buyDVD", DVD).pipe(
+            catchError(this.handleError<CopiesDVD>("watchFilm")));
+    }
+
+    public triggerEnvoiDVD( member: MemberBD): number {
+        return 0;
     }
 
     private handleError<T>(request: string, result?: T): (error: Error) => Observable<T> {
@@ -83,4 +109,5 @@ export class CommunicationService {
             return of(result as T);
         };
     }
+
 }

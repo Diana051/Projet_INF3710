@@ -9,20 +9,21 @@ import { CommunicationService } from "../communication.service";
 })
 export class FilmComponent implements OnInit {
   public listFilm: FilmBD[] ;
+  public infoButtonValue: number = 0;
 
   public constructor(private communicationService: CommunicationService) {
-    this. listFilm  = new Array<FilmBD>();
+    this.listFilm  = new Array<FilmBD>();
   }
 
-  public ngOnInit(): void {
-  }
+  public ngOnInit(): void {}
 
-  public insertFilm(title: string, gender: string, duration: string, productionDate: Date): void {
+  public insertFilm(title: string, gender: string, duration: string, productionDate: Date, price: number): void {
     const newFilm: Film = {
       "title": title,
       "gender": gender,
       "duration": duration,
-      "productionDate": productionDate
+      "productionDate": productionDate,
+      "price": price,
     };
     this.communicationService.insertFilm(newFilm).subscribe((res: number) => {
         console.log(res);
@@ -30,18 +31,28 @@ export class FilmComponent implements OnInit {
   }
 
   public openListFilm(): void {
-   this.communicationService.getFilms().subscribe((films) => {
-    for (const film of films) {
-      this.listFilm.push(film);
-    }
+   this.communicationService.getFilms().subscribe((films: FilmBD[]) => {
+      this.listFilm = films;
    });
   }
 
+  public showInfo(i: number): void {
+    if (i + 1 === this.infoButtonValue ) {
+      this.infoButtonValue = 0;
+      return;
+    }
+    this.infoButtonValue = i + 1 ;
+  }
+
   public deleteFilm(film: FilmBD): void {
-    this.communicationService.deleteFilm(film.filmID);
+    console.log(film);
+    this.communicationService.deleteFilm(film).subscribe((res: FilmBD) => {
+      console.log(res);
+      this.openListFilm();
+  });
   }
 
   public editFilm(film: FilmBD): void {
-    // this.communicationService.deleteFilm(film.filmID);
+    // this.communicationService.deleteFilm(film);
   }
 }
